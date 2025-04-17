@@ -1,4 +1,4 @@
-# MCP Notes Management System
+# MCP Management System
 
 ## What is MCP?
 
