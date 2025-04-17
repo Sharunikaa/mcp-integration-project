@@ -1,0 +1,12 @@
+[project]
+name = "mcp-integration-project"
+version = "0.1.0"
+description = "A comprehensive project demonstrating integration with various services using Model Context Protocol (MCP)"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastmcp>=2.2.0",
+    "mcp[cli]>=1.6.0",
+    "requests>=2.32.3",
+    "python-dotenv>=1.0.0"
+]
