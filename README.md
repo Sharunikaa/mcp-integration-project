@@ -1,22 +1,38 @@
-# Model Context Protocol (MCP) Integration Suite
+# MCP Notes Management System
 
 ## What is MCP?
 
 Model Context Protocol (MCP) is a framework that enables AI assistants to interact with external tools, services, and data sources through standardized interfaces. By using MCP, AI models can perform real-world actions and access up-to-date information beyond their training data, expanding their capabilities significantly.
 
-This project demonstrates how to integrate various services using MCP, allowing AI assistants to perform tasks like fetching news, managing GitHub repositories, sending Slack messages, accessing location data, automating browsers, and managing notes.
+This project demonstrates a practical implementation of MCP, focusing on notes management, while also showing how to integrate with GitHub, Slack, file system operations, Google Maps, and browser automation.
 
-## 🌟 Key Integrations
+## 📊 Project Structure
 
-This repository showcases the following MCP integrations:
+```
+.
+├── main.py                # MCP server implementation
+├── notes.txt              # Sample notes file containing information about GenAI
+├── pyproject.toml         # Python project configuration
+├── README.md              # This documentation
+└── .env                   # Environment variables (create this file)
+```
 
-- **GitHub**: Repository, issue, and pull request management
-- **Slack**: Channel messaging and thread interactions
-- **File System**: Secure file and directory operations
-- **Google Maps**: Location services and directions
+## 🌟 Features
+
+This project showcases note management functionality with several possible integrations:
+
+### 1. Notes Management
+- Add notes with timestamps
+- Read all existing notes
+- Access the latest note
+- Generate note summary prompts
+
+### 2. External Service Integrations
+- **GitHub**: Repository and issue management
+- **Slack**: Channel messaging
+- **File System**: Secure file operations
+- **Google Maps**: Location services
 - **Playwright**: Browser automation
-- **News API**: Article retrieval and management
-- **Notes System**: Custom note-taking functionality
 
 ## 📋 Prerequisites
 
@@ -37,21 +53,11 @@ cd mcp-integration-project
 pip install fastmcp mcp[cli] requests
 ```
 
-3. Configure environment variables in a `.env` file:
-```env
-NEWS_API_KEY=your_news_api_key
-GITHUB_PERSONAL_ACCESS_TOKEN=your_github_token
-SLACK_BOT_TOKEN=your_slack_token
-SLACK_TEAM_ID=your_team_id
-SLACK_CHANNEL_IDS=channel1,channel2
-GOOGLE_MAPS_API_KEY=your_google_maps_key
-```
-
 ## 🔧 MCP Configuration
 
-### Complete MCP Server Configuration Example
+### Claude Desktop Configuration
 
-Create a `claude_desktop_config.json` file with your MCP server definitions:
+Create or update your `claude_desktop_config.json` file with the following MCP server definitions:
 
 ```json
 {
@@ -72,7 +78,7 @@ Create a `claude_desktop_config.json` file with your MCP server definitions:
         "-y",
         "@modelcontextprotocol/server-filesystem",
         "C:\\Users\\your_username",
-        "D:\\your_project_directory"
+        "D:\\news_custom"
       ]
     },
     "slack": {
@@ -82,7 +88,7 @@ Create a `claude_desktop_config.json` file with your MCP server definitions:
         "@modelcontextprotocol/server-slack"
       ],
       "env": {
-        "SLACK_BOT_TOKEN": "xoxb-your-token",
+        "SLACK_BOT_TOKEN": "your_slack_token",
         "SLACK_TEAM_ID": "your_team_id",
         "SLACK_CHANNEL_IDS": "channel1,channel2"
       }
@@ -103,45 +109,43 @@ Create a `claude_desktop_config.json` file with your MCP server definitions:
         "@playwright/mcp@latest"
       ]
     },
-    "custom-server": {
+    "notes-assistant": {
       "command": "python",
       "args": [
         "main.py"
-      ],
-      "env": {
-        "NEWS_API_KEY": "your_news_api_key"
-      }
+      ]
     }
   }
 }
 ```
 
-## 📝 Custom Functions
+## 📝 Implementation Details
 
-### Creating Your Own MCP Server
+### Notes Management
 
-This project demonstrates how to create a custom MCP server with Python using the FastMCP library:
+The project includes tools for managing notes:
 
 ```python
-from mcp.server.fastmcp import FastMCP
-
-# Create an MCP server
-mcp = FastMCP("AI Assistant")
-
-# Register custom tools
-@mcp.tool()
-def fetch_news(query: str) -> str:
-    """Fetch news articles based on a query."""
-    # Implementation
-    
 @mcp.tool()
 def add_note(message: str) -> str:
-    """Add a note to the system."""
-    # Implementation
+    """
+    Append a new note to the sticky note file.
+    """
+    # Adds a note to notes.txt
     
-# Start the server
-if __name__ == "__main__":
-    mcp.run()
+@mcp.tool()
+def read_notes() -> str:
+    """
+    Read and return all notes from the sticky note file.
+    """
+    # Returns all stored notes
+    
+@mcp.resource("notes://latest")
+def get_latest_note() -> str:
+    """
+    Get the most recently added note.
+    """
+    # Returns the last note
 ```
 
 ## 🚀 Usage Examples
@@ -152,52 +156,26 @@ if __name__ == "__main__":
 python main.py
 ```
 
-### GitHub Operations
+### Notes Operations
 
 ```python
-# Create a repository
-github_create_repository(name="new-repo", description="A new repository")
-
-# Create an issue
-github_create_issue(owner="username", repo="repo-name", title="Issue title", body="Issue description")
-```
-
-### Google Maps Operations
-
-```python
-# Get directions
-maps_directions(origin="New York", destination="Boston", mode="driving")
-
-# Search for places
-maps_search_places(query="restaurants near me", location={"latitude": 40.7128, "longitude": -74.0060})
-```
-
-### Playwright Browser Automation
-
-```python
-# Navigate to a website
-browser_navigate(url="https://example.com")
-
-# Take a screenshot
-browser_take_screenshot()
-```
-
-### News and Notes Operations
-
-```python
-# Fetch news on a topic
-fetch_news(query="artificial intelligence")
-
 # Add a note
 add_note(message="Important meeting tomorrow")
+
+# Read all notes
+read_notes()
+
+# Get the latest note
+get_latest_note()
 ```
 
-## 🔐 Security Considerations
+## 🔍 Troubleshooting
 
-- Store all API keys and tokens in environment variables, not directly in code
-- Limit file system access to necessary directories only
-- Implement proper error handling and logging
-- Use restricted scopes for API tokens when possible
+Common issues and solutions:
+
+1. **MCP Server Not Starting**: Check if the correct version of Python is installed (3.13+)
+2. **Tool Not Found Errors**: Ensure your Claude configuration points to the correct file paths
+3. **Empty Results**: Make sure your notes.txt file exists and is writable
 
 ## 📚 Documentation Resources
 
@@ -208,7 +186,6 @@ For more information about MCP and related technologies:
 - [GitHub API Documentation](https://docs.github.com/en/rest)
 - [Slack API Documentation](https://api.slack.com/web)
 - [Google Maps Platform Documentation](https://developers.google.com/maps/documentation)
-- [Playwright Documentation](https://playwright.dev/docs/intro)
 
 ## 📄 License
 
@@ -216,4 +193,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Made with ❤️ by [Sharunikaa](https://github.com/Sharunikaa)
+Last updated: April 17, 2025  
+Made by [Sharunikaa](https://github.com/Sharunikaa)
