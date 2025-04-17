@@ -4,18 +4,7 @@
 
 Model Context Protocol (MCP) is a framework that enables AI assistants to interact with external tools, services, and data sources through standardized interfaces. By using MCP, AI models can perform real-world actions and access up-to-date information beyond their training data, expanding their capabilities significantly.
 
-This project demonstrates a practical implementation of MCP, focusing on notes management, while also showing how to integrate with GitHub, Slack, file system operations, Google Maps, and browser automation.
-
-## 📊 Project Structure
-
-```
-.
-├── main.py                # MCP server implementation
-├── notes.txt              # Sample notes file containing information about GenAI
-├── pyproject.toml         # Python project configuration
-├── README.md              # This documentation
-└── .env                   # Environment variables (create this file)
-```
+This project demonstrates a practical implementation of MCP, focusing on notes management, while also showing how to integrate with GitHub, Slack, file system operations, and browser automation.
 
 ## 🌟 Features
 
@@ -31,7 +20,6 @@ This project showcases note management functionality with several possible integ
 - **GitHub**: Repository and issue management
 - **Slack**: Channel messaging
 - **File System**: Secure file operations
-- **Google Maps**: Location services
 - **Playwright**: Browser automation
 
 ## 📋 Prerequisites
@@ -91,16 +79,6 @@ Create or update your `claude_desktop_config.json` file with the following MCP s
         "SLACK_BOT_TOKEN": "your_slack_token",
         "SLACK_TEAM_ID": "your_team_id",
         "SLACK_CHANNEL_IDS": "channel1,channel2"
-      }
-    },
-    "google-maps": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@modelcontextprotocol/server-google-maps"
-      ],
-      "env": {
-        "GOOGLE_MAPS_API_KEY": "your_google_maps_key"
       }
     },
     "playwright": {
@@ -185,7 +163,7 @@ For more information about MCP and related technologies:
 - [FastMCP Documentation](https://pypi.org/project/fastmcp/)
 - [GitHub API Documentation](https://docs.github.com/en/rest)
 - [Slack API Documentation](https://api.slack.com/web)
-- [Google Maps Platform Documentation](https://developers.google.com/maps/documentation)
+- [Playwright Documentation](https://playwright.dev/docs/intro)
 
 ## 📄 License
 
